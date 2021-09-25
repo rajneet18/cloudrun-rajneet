@@ -24,9 +24,9 @@ RUN chmod g+r /opt/tomcat/bin/*
 
 RUN rm -rf /opt/tomcat/webapps/*
 RUN cd /tmp && git clone https://github.com/rajneet18/cloudrun-rajneet.git
-RUN cd /tmp/spring-mvc-login && mvn clean install
-RUN cp /tmp/spring-mvc-login/target/login.war /opt/tomcat/webapps/ROOT.war
-RUN chmod 777 /opt/tomcat/webapps/ROOT.war
+#RUN cd /tmp/spring-mvc-login && mvn clean install
+#RUN cp /tmp/spring-mvc-login/target/login.war /opt/tomcat/webapps/ROOT.war
+#RUN chmod 777 /opt/tomcat/webapps/ROOT.war
 
 VOLUME /opt/tomcat/webapps
 EXPOSE 8080
