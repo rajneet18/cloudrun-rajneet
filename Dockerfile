@@ -17,6 +17,6 @@ COPY --from=MAVEN_BUILD /build/target/Gcs-1.jar  /app/
 
 ENTRYPOINT ["java", "-jar", "Gcs-1.jar "]
 
-java -jar target/rest-service-0.0.1-SNAPSHOT.jar
+EXPOSE 8080
 
 
