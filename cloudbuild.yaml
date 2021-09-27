@@ -13,7 +13,7 @@ steps:
  - name: 'gcr.io/cloud-builders/docker'
    args: ["push", "gcr.io/$PROJECT_ID/tomcat"]
    
- -name : 'gcr.io/cloud-builders/docker'
-  args: ["network", "cloudbuild"]
+ - name : 'gcr.io/cloud-builders/docker'
+   args: ["network", "cloudbuild"]
 
 
