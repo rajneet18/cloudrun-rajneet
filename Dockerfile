@@ -17,6 +17,6 @@ COPY --from=MAVEN_BUILD /build/target/cloudrun-rajneet-0.1.0.jar /app/
 
 ENTRYPOINT ["java", "-jar", "cloudrun-rajneet-0.1.0.jar"]
 
-java -jar target/rest-service-0.0.1-SNAPSHOT.jar
+
 
 
