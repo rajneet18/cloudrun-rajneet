@@ -12,5 +12,7 @@ steps:
 # Push the docker image to container registry
  - name: 'gcr.io/cloud-builders/docker'
    args: ["push", "gcr.io/$PROJECT_ID/tomcat"]
+ -name : 'gcr.io/cloud-builders/docker'
+  args: ['network","cloudbuild"]
 
 
