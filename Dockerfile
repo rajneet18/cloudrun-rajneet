@@ -7,16 +7,16 @@ COPY src /build/src/
 
 WORKDIR /build/
 RUN mvn package
-RUN mvn clean install
+RUN mvn install -DskipTests=false
 
 FROM openjdk:8-jre-alpine
 
 WORKDIR /app
 
-COPY --from=MAVEN_BUILD /build/target/cloudrun-rajneet-0.1.0.jar /app/
+COPY --from=MAVEN_BUILD /build/target/Gcs-1.jar  /app/
 
-ENTRYPOINT ["java", "-jar", "cloudrun-rajneet-0.1.0.jar"]
+ENTRYPOINT ["java", "-jar", "Gcs-1.jar "]
 
-
+java -jar target/rest-service-0.0.1-SNAPSHOT.jar
 
 
