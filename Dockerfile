@@ -7,7 +7,7 @@ COPY src /build/src/
 
 WORKDIR /build/
 RUN mvn package
-RUN mvn clean install
+RUN mvn install -DskipTests=false
 
 FROM openjdk:8-jre-alpine
 
@@ -15,8 +15,4 @@ WORKDIR /app
 
 COPY --from=MAVEN_BUILD /build/target/Gcs-1.jar  /app/
 
-ENTRYPOINT ["java", "-jar", "Gcs-1.jar "]
-
-EXPOSE 8080
-
-
+ENTRYPOINT ["java", "-jar", "Gcs-1.jar"]
