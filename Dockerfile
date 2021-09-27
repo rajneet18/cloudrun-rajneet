@@ -1,35 +1,22 @@
-# Version JDK8
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
 
-FROM centos:7
-MAINTAINER Sricharan Koyalkar
+MAINTAINER Brian Hannaway
 
-RUN yum install -y java-1.8.0-openjdk-devel wget git maven
+COPY pom.xml /build/
+COPY src /build/src/
 
-# Create users and groups
-RUN groupadd tomcat
-RUN mkdir /opt/tomcat
-RUN useradd -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+WORKDIR /build/
+RUN mvn package
+RUN mvn clean install
 
-# Download and install tomcat
-RUN wget https://mirror.nodesdirect.com/apache/tomcat/tomcat-10/v10.0.11/bin/apache-tomcat-10.0.11.tar.gz
-RUN tar -zxvf apache-tomcat-10.0.11.tar.gz -C /opt/tomcat --strip-components=1
-RUN chgrp -R tomcat /opt/tomcat/conf
-RUN chmod g+rwx /opt/tomcat/conf
-RUN chmod g+r /opt/tomcat/conf/*
-RUN chown -R tomcat /opt/tomcat/logs/ /opt/tomcat/temp/ /opt/tomcat/webapps/ /opt/tomcat/work/
-RUN chgrp -R tomcat /opt/tomcat/bin
-RUN chgrp -R tomcat /opt/tomcat/lib
-RUN chmod g+rwx /opt/tomcat/bin
-RUN chmod g+r /opt/tomcat/bin/*
+FROM openjdk:8-jre-alpine
 
-RUN rm -rf /opt/tomcat/webapps/*
-RUN cd /tmp && git clone https://github.com/rajneet18/cloudrun-rajneet.git
-#RUN cd /tmp/spring-mvc-login && mvn clean install
-#RUN cp /tmp/spring-mvc-login/target/login.war /opt/tomcat/webapps/ROOT.war
-#RUN chmod 777 /opt/tomcat/webapps/ROOT.war
+WORKDIR /app
 
-VOLUME /opt/tomcat/webapps
-EXPOSE 8080
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
-#
-#VOLUME /opt/tomcat/webapps
+COPY --from=MAVEN_BUILD /build/target/cloudrun-rajneet-0.1.0.jar /app/
+
+ENTRYPOINT ["java", "-jar", "cloudrun-rajneet-0.1.0.jar"]
+
+java -jar target/rest-service-0.0.1-SNAPSHOT.jar
+
+
